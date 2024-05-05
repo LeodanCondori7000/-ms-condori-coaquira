@@ -125,7 +125,7 @@ public class PersonaAdapter implements PersonaServiceOut {
         if(datoExtraido.isPresent()){
 
             PersonaEntity personaEntity = datoExtraido.get();
-            personaEntity.setEstado(0); // Mark as deleted (adjust based on your logic)
+            personaEntity.setEstado(0);
             personaEntity.setUsuarioBorra(Constant.USU_ADMIN);
             personaEntity.setFechaBorrado(getTimestamp());
             personaRepository.save(personaEntity);

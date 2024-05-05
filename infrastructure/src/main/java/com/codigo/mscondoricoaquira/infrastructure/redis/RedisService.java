@@ -26,12 +26,6 @@ public class RedisService {
     }
 
     public Set<String> getKeysByPattern(String pattern) {
-        /*Cursor<String> cursor = stringRedisTemplate.keys(pattern).scan();
-        Set<String> keys = new HashSet<>();
-        while (cursor.hasNext()) {
-            keys.add(cursor.next());
-        }
-        return keys;*/
         ScanOptions options = ScanOptions.scanOptions().match(pattern).build();
         try (Cursor<String> cursor = stringRedisTemplate.scan(options)) {
             Set<String> keys = new HashSet<>();
@@ -40,10 +34,7 @@ public class RedisService {
             }
             return keys;
         } catch (Exception e) {
-            // Log the exception
-            //logger.error("Error occurred while scanning Redis keys: {}", e.getMessage());
 
-            // You can choose to throw a RuntimeException or return a default value
             throw new RuntimeException("Error occurred while scanning Redis keys", e);
 
         }

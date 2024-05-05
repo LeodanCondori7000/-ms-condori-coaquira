@@ -109,9 +109,8 @@ public class EmpresaAdapter implements EmpresaServiceOut {
                 String dataForRedis = Util.convertirAString(empresaDto);
                 redisService.saveInRedis(Constant.REDIS_KEY_OBTENEREMPRESA + id, dataForRedis, 600);
 
-                // Invalidate related Persona data (soft invalidation)
-                // redisService.deleteKey(Constant.REDIS_KEY_OBTENERPERSONA + "*"); // Delete Persona entries with any ID pattern
-                // Aggressive invalidation: Delete all Persona data related to the updated Empresa
+                // redisService.deleteKey(Constant.REDIS_KEY_OBTENERPERSONA + "*");
+
                 Set<String> personaKeys = redisService.getKeysByPattern(Constant.REDIS_KEY_OBTENERPERSONA + "*");
                 for (String personaKey : personaKeys) {
                     redisService.deleteKey(personaKey);
@@ -130,12 +129,11 @@ public class EmpresaAdapter implements EmpresaServiceOut {
         if(dato.isPresent()){
 
             EmpresaEntity empresaEntity = dato.get();
-            empresaEntity.setEstado(0); // Mark as deleted (adjust based on your logic)
+            empresaEntity.setEstado(0);
             empresaEntity.setUsuarioBorra(Constant.USU_ADMIN);
             empresaEntity.setFechaBorrado(getTimestamp());
-            empresaRepository.save(empresaEntity); // Persist changes
+            empresaRepository.save(empresaEntity);
 
-            // Invalidate the cache entry for the deleted company
             redisService.deleteKey(Constant.REDIS_KEY_OBTENEREMPRESA + id);
             // Invalidate related Persona data (soft invalidation)
             Set<String> personaKeys = redisService.getKeysByPattern(Constant.REDIS_KEY_OBTENERPERSONA + "*");

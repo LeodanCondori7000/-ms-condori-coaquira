@@ -1,6 +1,5 @@
 package com.codigo.mscondoricoaquira.infrastructure.util;
 
-import com.codigo.mscondoricoaquira.domain.aggregates.dto.EmpresaDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,12 +21,4 @@ public class Util {
             throw new RuntimeException(e);
         }
     }
-    /*public static String convertirAString(EmpresaDto empresaDto){
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(empresaDto);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
 }
